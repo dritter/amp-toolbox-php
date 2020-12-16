@@ -35,6 +35,7 @@
     </rule>
 
 	<rule ref="Generic.Files.LineLength.TooLong">
+		<exclude-pattern>src/Validator/Spec/*</exclude-pattern>
 		<exclude-pattern>tests/*</exclude-pattern>
 	</rule>
 </ruleset>

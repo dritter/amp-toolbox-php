@@ -8,3 +8,7 @@ parameters:
 		- src/
 	ignoreErrors:
 		- '#^PHPDoc tag @throws with type AmpProject\\Exception\\FailedRemoteRequest is not subtype of Throwable$#'
+		- '#^Call to function array_key_exists\(\) with ''extensionType'' and array\(.*\) will always evaluate to false.$#'
+		-
+			message: '#^Unreachable statement - code above always terminates.$#'
+			path: src/Validator/Spec/ExtensionSpec.php

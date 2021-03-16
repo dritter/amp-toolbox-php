@@ -1003,6 +1003,7 @@ interface Attribute
     const DATA_GFYID                      = 'data-gfyid';
     const DATA_GISTID                     = 'data-gistid';
     const DATA_HERO                       = 'data-hero';
+    const DATA_HERO_CANDIDATE             = 'data-hero-candidate';
     const DATA_HREF                       = 'data-href';
     const DATA_ID                         = 'data-id';
     const DATA_IFRAME_SRC                 = 'data-iframe-src';

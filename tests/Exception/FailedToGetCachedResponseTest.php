@@ -20,6 +20,6 @@ class FailedToGetCachedResponseTest extends TestCase
         $this->expectException(FailedToGetCachedResponse::class);
         $this->expectExceptionMessage("Failed to retrieve the cached response for the URL 'https://example.com/'.");
 
-        throw FailedToGetCachedResponse::withUrl('https://example.com/');
+        throw FailedToGetCachedResponse::withUrl('https://example.com/', 'inner exception msg');
     }
 }

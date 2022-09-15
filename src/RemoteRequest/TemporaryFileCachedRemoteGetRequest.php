@@ -129,7 +129,7 @@ final class TemporaryFileCachedRemoteGetRequest implements RemoteGetRequest
             $this->cacheResponse($url, $response);
             return $response;
         } catch (Exception $error) {
-            throw FailedToGetCachedResponse::withUrl($url);
+            throw FailedToGetCachedResponse::withUrl($url, $error->getMessage());
         }
     }
 

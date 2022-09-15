@@ -18,9 +18,9 @@ final class FailedToGetCachedResponse extends RuntimeException implements Failed
      * @param string $url URL that failed to be fetched.
      * @return self
      */
-    public static function withUrl($url)
+    public static function withUrl($url, $innerMessage)
     {
-        $message = "Failed to retrieve the cached response for the URL '{$url}'.";
+        $message = "Failed to retrieve the cached response for the URL '{$url}'. INNER MSG:\n{$innerMessage}";
 
         return new self($message);
     }

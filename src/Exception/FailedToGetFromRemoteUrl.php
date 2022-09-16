@@ -28,9 +28,9 @@ final class FailedToGetFromRemoteUrl extends RuntimeException implements FailedR
      * @param int    $status HTTP Status that was returned.
      * @return self
      */
-    public static function withHttpStatus($url, $status)
+    public static function withHttpStatus($url, $status, $additionalInfo = '')
     {
-        $message = "Failed to fetch the contents from the URL '{$url}' as it returned HTTP status {$status}.";
+        $message = "Failed to fetch the contents from the URL '{$url}' as it returned HTTP status {$status}. {$additionalInfo}";
 
         $exception             = new self($message);
         $exception->statusCode = $status;

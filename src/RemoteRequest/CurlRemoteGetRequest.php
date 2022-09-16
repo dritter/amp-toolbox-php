@@ -97,6 +97,7 @@ final class CurlRemoteGetRequest implements RemoteGetRequest
      */
     public function get($url, $headers = [])
     {
+        $additionalLogInfo = '';
         $retriesLeft = $this->retries;
         do {
             $curlHandle = curl_init();
@@ -128,6 +129,13 @@ final class CurlRemoteGetRequest implements RemoteGetRequest
 
             $body   = curl_exec($curlHandle);
             $status = curl_getinfo($curlHandle, CURLINFO_HTTP_CODE);
+            if ($status !== 404) {
+                $additionalLogInfo .= "$status ";
+            }
+            if ($status > 300 && $status < 400 && isset($headers['Location'])) {
+                $location = array_reduce($headers['Location'], function($item, $carry) { return "$carry $item"; }, '');
+                $additionalLogInfo .= "Location: {$location}";
+            }
 
             $curlErrno = curl_errno($curlHandle);
             curl_close($curlHandle);
@@ -135,7 +143,7 @@ final class CurlRemoteGetRequest implements RemoteGetRequest
             if ($body === false || $status < 200 || $status >= 300) {
                 if (! $retriesLeft || in_array($curlErrno, self::RETRYABLE_ERROR_CODES, true) === false) {
                     if (! empty($status) && is_numeric($status)) {
-                        throw FailedToGetFromRemoteUrl::withHttpStatus($url, (int) $status);
+                        throw FailedToGetFromRemoteUrl::withHttpStatus($url, (int) $status, $additionalLogInfo);
                     }
 
                     throw FailedToGetFromRemoteUrl::withoutHttpStatus($url);

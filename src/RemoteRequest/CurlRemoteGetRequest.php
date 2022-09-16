@@ -129,6 +129,14 @@ final class CurlRemoteGetRequest implements RemoteGetRequest
 
             $body   = curl_exec($curlHandle);
             $status = curl_getinfo($curlHandle, CURLINFO_HTTP_CODE);
+
+            $try = self::DEFAULT_RETRIES - $retriesLeft;
+            $additionalLogInfo .= "Try: {$try} ";
+
+            if ($try === 0) {
+                $additionalLogInfo .= "$url ";
+            }
+
             if ($status !== 404) {
                 $additionalLogInfo .= "$status ";
             }

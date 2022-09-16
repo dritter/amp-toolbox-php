@@ -141,7 +141,7 @@ final class CurlRemoteGetRequest implements RemoteGetRequest
             curl_close($curlHandle);
 
             if ($body === false || $status < 200 || $status >= 300) {
-                if (! $retriesLeft || in_array($curlErrno, self::RETRYABLE_ERROR_CODES, true) === false) {
+                if (! $retriesLeft || (in_array($curlErrno, self::RETRYABLE_ERROR_CODES, true) === false && ($status !== 301 && $status !== 302))) {
                     if (! empty($status) && is_numeric($status)) {
                         throw FailedToGetFromRemoteUrl::withHttpStatus($url, (int) $status, $additionalLogInfo);
                     }
@@ -149,6 +149,11 @@ final class CurlRemoteGetRequest implements RemoteGetRequest
                     throw FailedToGetFromRemoteUrl::withoutHttpStatus($url);
                 }
 
+                if ($status > 300 && $status < 400 && isset($headers['Location'])) {
+                    // Cleanup after redirect
+                    $url = reset($headers['Location']);
+                    $headers = [];
+                }
                 continue;
             }
 
